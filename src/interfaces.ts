@@ -1,6 +1,6 @@
 // ---- App / API secrets (stored in AWS Secrets Manager via AWS_SECRET_ARN) ----
 export interface IAppSecrets {
-  NODE_ENV: string;
+  NODE_ENV: "development" | "production";
   PORT: string;
   DB_NAME: string;
   DB_HOST: string;

@@ -17,7 +17,15 @@ jest.mock("../src/db/health", () => ({
 }));
 
 describe("app basic routes", () => {
-  it("GET / responds with service name", async () => {
+  it("GET / returns service name with -dev suffix when NODE_ENV is not production", async () => {
+    app.set("secrets", { NODE_ENV: "development" });
+    const res = await request(app).get("/");
+    expect(res.status).toBe(200);
+    expect(res.text).toBe("gateway-downstream-node-starter-dev");
+  });
+
+  it("GET / returns service name without suffix when NODE_ENV is production", async () => {
+    app.set("secrets", { NODE_ENV: "production" });
     const res = await request(app).get("/");
     expect(res.status).toBe(200);
     expect(res.text).toBe("gateway-downstream-node-starter");

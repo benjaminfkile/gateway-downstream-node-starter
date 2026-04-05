@@ -13,8 +13,10 @@ const app: Express = express();
 // app.use(cors());
 app.use(express.json());
 
-app.get("/", (_req: Request, res: Response) => {
-  res.send("gateway-downstream-node-starter");
+app.get("/", (req: Request, res: Response) => {
+  const secrets = req.app.get("secrets") as { NODE_ENV?: string } | undefined;
+  const suffix = secrets?.NODE_ENV === "production" ? "" : "-dev";
+  res.send(`gateway-downstream-node-starter${suffix}`);
 });
 
 app.use("/api/health", healthRouter);
