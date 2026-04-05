@@ -1,11 +1,11 @@
-import { TNodeEnvironment } from "./types";
-
 // ---- App / API secrets (stored in AWS Secrets Manager via AWS_SECRET_ARN) ----
-export interface IAPISecrets {
-  node_env: TNodeEnvironment;
-  port: string;
-  db_name: string;
-  db_host: string;
+export interface IAppSecrets {
+  NODE_ENV: string;
+  PORT: string;
+  DB_NAME: string;
+  DB_HOST: string;
+  DB_PROXY_URL: string;
+  API_KEY_HASH: string;
   // Add additional app-level secrets here as needed
 }
 
@@ -13,10 +13,6 @@ export interface IAPISecrets {
 export interface IDBSecrets {
   username: string;
   password: string;
-  engine: "postgres";
-  host: string;
-  port: number;
-  dbInstanceIdentifier: string;
 }
 
 // ---- DB health check result ----

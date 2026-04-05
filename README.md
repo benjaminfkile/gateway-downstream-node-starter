@@ -91,7 +91,7 @@ docker build \
   --build-arg NODE_ENVIRONMENT=production \
   -t my-api:latest .
 
-docker run -d --name my-api --network app-net -p 3000:3000 my-api:latest
+docker run -d --name my-api --network app-net -p 8000:8000 my-api:latest
 ```
 
 ## Tests

@@ -1,26 +1,28 @@
 import knex, { Knex } from "knex";
-import { IAPISecrets, IDBSecrets } from "../interfaces";
+import { IAppSecrets, IDBSecrets } from "../interfaces";
 import health from "./health";
 
 let db: Knex | null = null;
 
 export async function initDb(
   dbSecrets: IDBSecrets,
-  appSecrets: IAPISecrets
+  appSecrets: IAppSecrets
 ): Promise<Knex> {
   if (db) return db;
 
-  const { username, password, host, port } = dbSecrets;
-  const { db_name } = appSecrets;
+  const { DB_NAME, DB_HOST } = appSecrets;
+
+  // const dbUrl = DB_PROXY_URL; // enable when RDS proxy is in use
+  const dbUrl = DB_HOST;
 
   db = knex({
     client: "pg",
     connection: {
-      host,
-      user: username,
-      password,
-      database: db_name,
-      port,
+      host: dbUrl,
+      user: dbSecrets.username,
+      password: dbSecrets.password,
+      database: DB_NAME,
+      port: 5432,
       ssl: { rejectUnauthorized: false },
     },
   });

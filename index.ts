@@ -18,12 +18,16 @@ async function start() {
     const appSecrets = await getAppSecrets();
     const dbSecrets = await getDBSecrets();
 
+    console.log("App secrets", appSecrets);
+    (console.log("DB secrets"), dbSecrets);
+
     app.set("secrets", appSecrets);
 
-    const morganFormat = appSecrets.node_env === "production" ? "tiny" : "common";
+    const morganFormat =
+      appSecrets.NODE_ENV === "production" ? "tiny" : "common";
     app.use(morgan(morganFormat));
 
-    const port = parseInt(appSecrets.port) || 3000;
+    const port = parseInt(appSecrets.PORT) || 8000;
 
     await initDb(dbSecrets, appSecrets);
 

@@ -1,25 +1,28 @@
 import { Request, Response, NextFunction } from "express";
-import { IAPISecrets } from "../interfaces";
+import bcrypt from "bcrypt";
+import { IAppSecrets } from "../interfaces";
 
 /**
  * Middleware that guards a route with a shared API key.
  * The caller must send the key in the `x-api-key` header.
- * Store the expected key in app secrets as `api_key`.
+ * Store a bcrypt hash of the key in app secrets as `API_KEY_HASH`.
  *
  * Usage: app.use("/api/admin", protectedRoute(), adminRouter);
  */
 const protectedRoute = () => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const secrets = req.app.get("secrets") as IAPISecrets | undefined;
+  return async (req: Request, res: Response, next: NextFunction) => {
+    const secrets = req.app.get("secrets") as IAppSecrets | undefined;
     if (!secrets) {
       return res.status(500).json({ error: "Secrets not loaded" });
     }
 
     const provided = req.headers["x-api-key"];
-    // TODO: replace with bcrypt compare if you store a hash instead of plaintext
-    const expected = (secrets as any).api_key as string | undefined;
+    if (!provided || typeof provided !== "string") {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-    if (!provided || provided !== expected) {
+    const isValid = await bcrypt.compare(provided, secrets.API_KEY_HASH);
+    if (!isValid) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
