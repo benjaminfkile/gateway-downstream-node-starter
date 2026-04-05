@@ -19,7 +19,7 @@ async function start() {
     const dbSecrets = await getDBSecrets();
 
     console.log("App secrets", appSecrets);
-    (console.log("DB secrets"), dbSecrets);
+    console.log("DB secrets", dbSecrets);
 
     app.set("secrets", appSecrets);
 
