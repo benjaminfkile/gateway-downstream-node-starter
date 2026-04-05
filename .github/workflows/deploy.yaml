@@ -63,6 +63,7 @@ jobs:
             --build-arg AWS_REGION=${{ secrets.AWS_REGION }} \
             --build-arg AWS_SECRET_ARN=${{ secrets.AWS_SECRET_ARN }} \
             --build-arg AWS_DB_SECRET_ARN=${{ secrets.AWS_DB_SECRET_ARN }} \
+            --build-arg PORT=${{ secrets.PORT }} \
             -t $IMAGE_URI:$GIT_SHA \
             -t $IMAGE_URI:${{ env.IMAGE_TAG }} \
             --push .
