@@ -1,4 +1,4 @@
-# gateway-downstream-node-starter
+# file-manager-api
 
 A bare-bones Node.js / Express / TypeScript API template that mirrors the patterns used across the fleet. Clone this, rename the service, and start adding routes.
 
@@ -99,4 +99,5 @@ docker run -d --name my-api --network app-net -p 8000:8000 my-api:latest
 ```bash
 npm test
 ```
-# gateway-downstream-node-starter
+# file-manager-api
+# file-manager-api
